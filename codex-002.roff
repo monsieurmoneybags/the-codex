@@ -1,0 +1,2122 @@
+\" Compile: run the compile.sh script
+\" Set the document font to Palatino
+.fam P
+\" Set the left margin (offset)
+.po 0.5i
+\" Set the line length
+.ll 4.5i
+\" Set the page length
+.pl 8.5i
+.nr Cl 2
+\" Set the paragraph indentation and inter-paragraph spacing
+.nr pi 2n
+.nr ps 0
+\" Set the section title font size
+.nr sp 14
+\" Set the footnote indentation and vertical spacing
+.nr fi 2n
+.nr fs 0v
+\" Set the space between top/bottom of page and headers
+.m1 -2.2v
+.m2 1.5v
+.m3 0v
+.m4 3v
+\" Redefine the .$c macro for a custom chapter heading
+.de $c
+.    nr ch +1 \" Increment chapter number count
+.    ft PB \" Use Palatino bold font
+.    ps 20 \" Use larger font size
+.    ad l  \" Left-align the chapter title (for multiple lines)
+.    hy 0  \" Turn off hyphenation
+.    vs 24p \" Increase vertical space (for multiple lines)
+.    if \\n(_M=1 \{\
+Chapter \\n(ch \" Print the chapter number
+.    ps
+.    sp 1
+.    ps 23
+\\$1 \" Print the chapter name, then restore previous settings
+.    \}
+.    fi
+.    vs
+.    hy 1
+.    ad b
+.    sp 3v
+.    ps \\n(sp \" Restore the font size
+.    ft R \" Restore the font style
+.    (x
+\\fB\\n(ch   \\$1\\fP
+.)x
+..
+\" Redefine the $0 macro to get the section info for the table of contents.
+\" Use more indentation for subsections.
+.de $0
+.    ie \\$3-2 \{\
+.    (x
+            \\$2  \\$1
+.)x
+.    \}
+.    el \{\
+.    (x
+     \\$2  \\$1
+.)x
+.    \}
+..
+\" Redefine the $h macro for a custom header: horizontal rule below the header
+.de $h
+.    if \\n%-1 \{\
+.    ie o \{\
+.    tl '\fRIssue #002\fP''\fIthe codex\fP' \" odd pages
+.    \}
+.    el \{\
+.    tl '\fIthe codex\fP''\fRIssue #002\fP' \" even pages
+.    \}
+.    sp -0.5
+.    hl
+.\}
+..
+\" Redefine the $f macro for a custom footer: horizontal rule above the footer
+.de $f
+.    if \\n%-1 \{\
+.    hl
+.    sp -1
+.    ce
+.    tl ''\fRPage %\fP''
+.\}
+..
+\" Set the math delimiter (for eqn)
+.EQ
+delim $$
+.EN
+\" Set the font size
+.ps 11
+\" Enable ligatures and kerning
+.lg 1
+.kern 1
+\" Title page
+.tp
+.sp 12
+.ce
+.ps 24
+the codex
+.ps 9
+.ce
+Life with Linux\(emA Zine
+.sp 0.8
+.ce
+Typeset in troff
+.sp 1
+.ce
+Issue #002
+.sp 2.3
+.ps 12
+.ce
+Kenneth John Odle
+.ps 9
+.sp 0.5
+.ce
+\" Today's date
+\*(td
+.hx
+.pn +1
+.bp
+\" Blurb page
+.ps 14
+\fBImpressum\fP
+.ps 11
+.sp 1
+.lp
+All contents \(co2022 Kenneth John Odle
+.pp
+Although this is now in your hands, and it's also on the web, so if you really
+wanted to steal this, I've made it pretty darn easy. I can't imagine why anyone
+would want to, though. However, you don't need to, because this is licenced
+under a CC BY-NA-SA 4.0 Creative Commons license. More information is at
+.br
+\fChttps://creativecommons.org/licenses/by-nc-sa/4.0/\fP
+.sp -0.8
+.PSPIC -L images/ncsa4-0.eps
+.pp
+FYI, this is made in LaTeX, using the report document class. It then gets
+exported to a letterhalf (5.5 in x 8.5 in) pdf, which then gets made into a
+booklet using PDF Booklet
+.br
+(\fChttps://pdfbooklet.sourceforge.io/wordpress/\fP).
+.pp
+I'm pushing this to my own git server as I write this. You can find it here:
+\fChttps://git.kjodle.net/kjodle/the-code\fP. New issues will be pushed after
+they are complete.
+.pp
+You can just skip over all the diversions in here if you want. It's just how my
+mind works. (And yes, there will be politics in this. \fIYou have been
+warned.\fP) Also, I use a lot of em-dashes, parentheses, and footnotes because
+that is also how my mind works. It's just one big long stream of consciousness
+up in here most days.
+.pp
+The buttons are from the Button Optimizer website, which is here:
+\fChttps://buttonoptimizer.com/\fP. I'm not sure if I like this concept or not.
+We'll have to see. (Note from the future: turns out I'm not keen.)
+.sp 0.5
+.lp
+\fBErrata:\fP To err is human, to document those errors is divine. A list of
+errata can be found at
+\fChttps://git.kjodle.net/kjodle/the-codex/wiki/Errata\fP.
+.sp 0.5
+.lp
+\fBCredit where credit is due:\fP A lot of people have come forth (mostly from
+Reddit) to help me out in various ways. See the preamble to this document in the
+source code to see them. One aspect of our society is that nobody \fIhas\fP to
+help you. It is wonderful when it happens, and I am grateful for their help.
+.pp
+The pictures of a Commodore 64 is courtesy of Bill Bertram. It was published at
+\fChttps://commons.wikimedia.org/wiki/File:Comm
+.br
+odore64.png\fP where you can also
+find the Creative Commons 2.5 license it was licensed under. I did slightly crop
+the top and bottom to make it fit better. LaTeX didn't care. The picture of a
+Commodore 128 is courtesy of Evan-Amos, and was published at
+\fChttps://commons.wik
+.br
+imedia.org/wiki/File:Commodore-128.jpg\fP, where you can
+find the Creative Commons 3.0 license it was licensed under.
+.hx
+.pn +2 \" Increment the page number (the Table of Contents will go here later)
+.bp
+\" Chapter 1
+.EQ
+delim off
+.EN
+.$c "The Later Salad Days" \n(ch 1
+.tm 
+.EQ
+delim $$
+.EN
+.lp
+Boring, early life stuff when my world smelled like sweat and disinfectant
+and room temperature bologna. Feel free to skip this. I wish I could.
+\" Section
+.sh 2 "The Joy of Commodore 64"
+.sp
+.lp
+The first computer I ever owned (and thus could use whenever I wanted to,
+provided it did not annoy the adults in the house) was a Commodore-64.
+(And yes, my use of this machine seemed to bug adults no end, and I have
+no idea why. I guess the same adults who thought it was a waste of time
+playing video games simply thought that a computer is another, more
+expensive type of video game. The lesson I learned here is to try to get
+some knowledge before you jump to criticism.) 
+.pp
+The ``64'' stood for 64 kilobytes, which was the amount of memory it had.
+If you've never heard of a kilobyte before, and are wondering how many
+gigabytes that is, it's time for some math, and also introductory computer
+science.
+.pp
+Hold on. You've never heard of a \fIkilobyte\fP? Wow, either we've
+really moved along, or I'm old, or both. Probably both. My knees hurt in
+the morning. Yeah, probably both.
+.pp
+Computers are just a series of switches. Each switch is a \fIbit\fP.
+Eight bits make up a \fIbyte\fP, which is enough memory to remember a
+single character.\**
+.(f
+\**See \fChttps://web.stanford.edu/class/cs101/bits-bytes.html\fP
+for more information.
+.)f
+Since each bit is just a one or a zero, there are
+256 possible different characters you can record in a byte.
+(Mathematically, it works out to $2 sup n$ possible combinations. Since in
+this case $n=8$, then we have $2 sup 8 = 256$ different combinations of
+ones and zeroes.\**)
+.(f
+.hy 0
+\**To see the actual combinations, visit
+.br
+\fChttps://user.eng.umd.edu/~nsw/chbe250/number.htm\fP, and to see which
+characters those numbers translate to, see
+.br
+\fChttps://www.rapidtables.com/code/text/ascii-table.html\fP.
+.hy 1
+.)f
+.pp
+Time for some math, which looks like this:
+.ps 7
+.(c
+.TS
+tab(%);
+r c c c c c l.
+% % % % % 1 byte %= 8 bits
+% % %1 kb% = %1,024 bytes %= 8,192 bits
+%1 MB% = %1,024 kb% = %1,048,576 bytes%=8,388,608 bits
+1 GB =%1,024 MB% = %1,048,576 kb% = %1,073,741,824 bytes%= 8,589,934,592 bits
+.TE
+.)c
+.ps 11
+.pp
+If you don't trust my math, check out
+.br
+\fChttps://www.matisse.net/bitcalc/\fP,
+which is where I did this math. It's actually kind of fun, and they get bonus
+points for including the source code of the perl script behind this sorcery.
+.pp
+Anyway, I'm driving a laptop now that has 8 GB of memory in it. (And I've
+seriously considered upgrading it to 16 GB). A gigabyte is equal to 1,048,576
+kilobytes. The math (and heck, let's use dimensional analysis because it's fun)
+looks like this:
+
+.EQ
+8 ~ roman {GB"\h'-1.1'\D'l 0.12i -0.12i'\v'0.12i'"~} ~ times
+{{1,048,576 ~ roman {kb"\h'-1.1'\D'l 0.12i -0.12i'"}} over
+{1 ~ roman {GB"\h'-1.1'\D'l 0.12i -0.12i'"}}} times
+{{1 ~ roman {Commodore ~ 64}} over
+{64 ~ roman {kb"\h'-1.1'\D'l 0.12i -0.12i'\v'0.12i'"}}} = 16,384 ~
+roman {Commodore ~ 64's}
+.EN
+.pp
+So the computer I'm on now has as much memory as 16,384 of the computer I had
+when I was 13 years old. If that doesn't seem like a lot to you, I paid
+$dollar 175$ for my current computer (used) in 2016, and paid $dollar 200$ (new)
+for a Commodore 64 in 1981. That's $dollar 3,276,800$ in 1981 dollars, which is
+the equivalent of $dollar 8,651,869.50$ in 2016 dollars, respectively. I didn't
+have three million dollars when I was thirteen, and I certainly don't have over
+eight million dollars now. Sadly.\**
+.(f
+\**Check out \fChttps://www.in2013dollars.com/us/inflation/1981\fP for the
+actual numbers.
+.)f
+.hl
+.sp -0.5
+\fBOh look, it's a diversion\fP
+.sp 0.5
+.2c
+.pp
+If you've studied the metric system, you know that \fIkilo-\fP is a prefix
+that means a ``a thousand'' and \fImega-\fP is a prefix that means
+``a million.''
+.pp
+Hold on. (Again.)
+.pp
+1,024 is \fInot\fP a thousand, and 1,048,576 is \fInot\fP a million. For my
+entire life, we've just walked right past this and pretended that we didn't
+notice. Doing science stuff? \fIkilo\fP is a 1,000 and \fImega\fP is a million.
+Doing computer stuff? Then \fIkilo\fP means 1,000\fIish\fP and \fImega\fP means
+a million\fPish\fP. Move along now, nothing to see here.
+.pp
+That discrepancy should bug you. It bugs me, but I also have bills to pay, so
+when someone asks ``\fIhow much\fP does it bug you?'' my honest answer is that
+I've worked \fIvery\fP hard to not let it bug me all that much.
+.pp
+But still.
+.pp
+Fortunately, it also bugged the International Electrotechnical Commission
+(an international standards commission whose job it is to standardize things)
+enough so that they introduced a few new terms in 1998.\**
+\fBKibibyte\fP means \fIexactly\fP 1,024 bytes, and not one byte more, not one
+byte less. \fBMebibyte\fP is exactly
+1,048,576 bytes. And so on with gibibytes,
+tebibytes, and pebibytes. They are
+.ne 99
+all some form of $2 sup n$, which means they
+\fIaccurately\fP describe just how many bytes we're talking about here.
+.pp
+The following table is filled with much beauty:
+.EQ
+1 ~ roman {kibibyte~(ki)} mark = 1,024 ~ roman {bytes}
+.EN
+.sp -0.5
+.EQ
+1 ~ roman {mebibyte~(Mi)} lineup = 1,024 sup 2 ~ roman {bytes}
+.EN
+.sp -0.5
+.EQ
+1 ~ roman {gibibyte~(Gi)} lineup = 1,024 sup 3 ~ roman {bytes}
+.EN
+.sp -0.5
+.EQ
+1 ~ roman {tebibyte~(Ti)} lineup = 1,024 sup 4 ~ roman {bytes}
+.EN
+.sp -0.5
+.EQ
+1 ~ roman {pebibyte~(Pi)} lineup = 1,024 sup 5 ~ roman {bytes}
+.EN
+.lp
+I can at last sleep soundly.
+.1c
+.hl
+.(f
+\**The standard is ISO/IEC 80000, section 13. This standard is all about the
+International System of Quantities, and if you're into that sort of thing, it
+is utterly \fIfascinating\fP reading. I'm not being facetious here\(emhumans
+measure \fIeverything\fP, and this document describes how we do it.
+.)f
+.sp -0.75
+.pp
+Let's get back to our story.
+.pp
+I purchased this computer from the back of a K-Mart, in much the same way the
+men in the small town I grew up in went to the back of the video store to rent
+porn. I guess it's fair to say that I lusted after this computer (although a
+much different form of lust) so the comparison is apt.
+.PSPIC -R images/c64.eps
+.sp -7.6
+.pp
+Unfortunately, when you bought
+.br
+a computer in those days you got
+.br
+exactly that in the box: a computer.
+.br
+There was no monitor, there was no
+.br
+disk drive, there was no printer. You
+.br
+just got a computer in a box with a
+.br
+power supply. I had scrimped and saved
+.br
+forever to buy this, and had fortunately
+.br
+also managed to save enough for a monitor,
+which in those days was a big, heavy cathode-ray tube device
+(CRT, for short). One of the selling points of the C-64 was that it was
+portable. You could just pick it up and take it with you. (It seems like all
+computers in the movies back in the day either took up entire rooms or
+buildings\(emthink Hal-9000 in \fI2001: A Space Odyssey\fP\(emor were
+something you could carry in your hand\(emthink the tricorders in
+\fIStar Trek\fP. We've never managed a happy medium.) The monitor, however,
+was anything \fIbut\fP portable. It was heavy, it was bulky, and it was fragile.
+Slam a lid closed on a modern laptop and everything will probably be fine.
+Knock a CRT off the table and it's toast. If it lands on your foot, you'll
+probably end up with a broken foot.
+.pp
+The second computer I ever owned was a Commodore 128. Whereas its predecessor
+only had 64 kb of memory, the C-128, as we called it, had a whopping 128 kb of
+memory\(emtwice the memory for nearly the same price. While the C-64 could only
+run in the 1 Mhz\**
+.(f
+\**megahertz\(ema measure of a computer's computing speed
+.)f
+mode, the C-128 could run in 1 Mhz mode or 2 Mhz mode, but such were the demands
+on its resources that running in 2 Mhz mode meant the screen would go
+blank\(emit simply didn't have the power to process that fast and display that
+processing on the screen at the same time. For comparison, I just pulled up a
+cheap Lenovo laptop on Best Buy's website that has an Intel i3 processor with 8
+GB of memory and a 256 GB solid state drive and is on sale for $dollar 389$. It
+has a clock speed of three \fIgigahertz\fP.
+.PSPIC -L images/c128.eps
+.sp -6.75
+.ad r
+Unlike the C-64, which was round
+.br
+and bulky, the C-128 was slim and
+.br
+sleek. In fact, one of its selling points
+.br
+was its portability, and I recall seeing
+.br
+a brochure where a college student is
+.br
+walking around campus with one under
+.br
+his arm. What they left out of that illus-
+.br
+.ad l
+.ad b
+tration, of course, is his friend dragging
+a little red wagon with a very large and very heavy CRT monitor in it, along
+with an incredibly heavy power source. They were portable in theory, but not
+in any practical manner. But compared to a mainframe that took up an entire
+room or building, it was light years ahead of its time. And I \fIfelt\fP like
+that, too, like this computer was going to take me places where I would be
+light years ahead of where I was then.\**
+.(f
+\**It didn't, because you need so much more than just a computer to get ahead.
+You need resources, you need people who believe in what you're doing and support
+you, and you need people who can point you in the direction of the next step. If
+you don't have those things, you're not a visionary with a bright future ahead
+of him, you're just a nerd with a computer.
+.)f
+.pp
+Like I said, the laptop I am using now has 8 GB of memory, which is a lot more
+than 128 kb of memory. But how much more? It's difficult for most people to
+visualize numbers, especially when they are orders of magnitude apart, and
+looking at raw numbers doesn't give our brains much to latch onto. We need to
+\fIvisualize\fP these numbers, which is why I used money earlier. But because
+I like math and most people like food, let's visualize these numbers a different
+way: through food.\**
+.(f
+\**A&W once tried to launch a $1/3$ pound burger to compete
+with McDonald's quarter-pounder, the idea being you get more meat for the
+same price. But it didn't sell because people thought a third of a pound was
+less than a fourth of a pound. (Again, the metric system for the fucking win.)
+They could get $4>3$, but they couldn't understand
+$1/4 <1/3$. See
+\fChttps://awrestaurants.com/blog/aw-third-pound-burger-fractions\fP for the
+full story.
+.)f
+.pp
+Let's assume that those 128 kb of memory are equivalent to one happy childhood
+meal. Maybe it's your dad cooking out on the weekend, or your Nonna making
+homemade meatballs, or maybe it's not a childhood meal; it's just you and your
+significant other sitting on the futon enjoying spaghetti Lady and the Tramp
+style. Pick whatever meal you love, that you think you could eat every day.
+That meal is the equivalent of those 128 kb of memory.
+.pp
+We've already established that there are 1,048,576 kilobytes in a single
+gigabyte. Let's do some more math.
+.EQ
+{1,048,576 ~ roman {kb/Gb}} over {128 ~ roman {kb/meal}} =
+8,192 ~ roman {meals}
+.EN
+.pp
+That means that for every single gigabyte of my modern laptop's memory, you
+could eat that meal once a day for 8,192 days. Since there are 365 days in a
+year, we'll do the math again:
+.EQ
+{8,192 ~ roman {meals"\h'-2.4'\D'l 0.34i -0.1i'\v'0.1i'\h'-0.1'"}} over
+{1 ~ roman {Gb}} times
+{1 ~ roman {day"\h'-1.7'\D'l 0.23i -0.07i'\v'0.07i'"}} over
+{1 ~ roman {meal"\h'-2.4'\D'l 0.34i -0.1i'\v'0.1i'\h'-0.1'"}} times
+{1 ~ roman {year}} over
+{365 ~ roman{days"\h'-2.4'\D'l 0.34i -0.1i'\v'0.1i'\h'-0.1'"}} =
+22.44 ~ roman {years/Gb}
+.EN
+.pp
+I hope you really like that meal, because you're going to be eating it every
+day for the next 22.44 years. Oh, but wait, that's for \fIone\fP gigabyte. My
+laptop has eight. A bit more math tells me that you'll be eating this meal for
+$dollar 22.44 times 8 = 179.6$ years. Oof, not only is it tasty, but it's also
+life-extending.
+\" Section
+.sh 2 "High School Computer Class"
+.sp
+.lp
+I went to high school in a very small,\** very rural, very midwestern small
+.(f
+\**We had one stoplight when I left there in 1990. I visited a few years ago,
+and they are now up to three stoplights. Progress.
+.)f
+town. My graduating class was 55 people,
+51 of which actually managed to show up to graduation. (I showed up to
+graduation with a black eye, but that's another story for another zine. Also,
+our class president got on a plane the day after graduation, flew to California,
+and moved to a pot farm. Progress. That's the story, anyway.) We only had two
+high school science teachers: Mr. Fusko, who taught all the biology classes and
+Mr. Dick, who taught chemistry, physics, and advanced mathematics.\**
+.(f
+\**His real name; I'm not kidding. His first name was Joe, which means that I
+learned a lot of chemistry, physics, and advanced mathematics from Joe Dick. He
+was the nicest guy in the world, though. I can't remember the name of the math
+class I had with him my senior year. It was probably Finite Math, but who knows?
+I don't remember anything about matrices, but it damn sure wasn't an accounting
+class.
+.)f
+.pp
+Mr. Dick also taught computers. 
+.pp
+This was the mid 1980s, and my very small, very rural, very redneck-laden high
+school had a computer lab. In reality, it wasn't an \fIactual\fP computer lab.
+It was just a room where they took all the student desks out, replaced them with
+chairs and tables, and plopped computers on them. Our high school had been built
+in the 1960s, when computers took up an entire wing of a building. Nobody
+thought to design a classroom with more than four outlets in those days, so
+there were extension cords everywhere.
+.pp
+Still, it had computers in it, and that's what counts.
+.pp
+I don't know if I actually was able to take a computer class with Mr. Dick or
+not. I remember spending a lot of time in that room, but as a nerdy kid with a
+crap family and not much of a social life, it's only natural that I would have
+migrated here during my free time before school, after school, during lunch
+hour, or whenever I decided to skip class (which was often) or whenever I wasn't
+leading a meeting of the Millard Fillmore Fan Club.\**
+.(f
+\**See my other zine, \fIjust13\fP issue #3 for more details
+.)f
+I remember that this room had a \fIlot\fP of Trash-80s in it, with their dark
+silver metallic cases and black highlights, but it also had five or six CP/M
+machines in it, with their off-white cases and their neon green displays. (Does
+anybody remember CP/M? Does anybody remember laughter?\**
+.(f
+\**You may remember this from a Led Zeppelin song, but I always remember the
+version by \fIDread\fP Zeppelin. It's one of the few cases where I feel the
+cover is better than the original.
+.)f
+.pp
+Anyway, if I did take a computer class with Mr. Dick, it was a very pale
+experience compared to my seventh grade experience,\**
+.(f
+\**See the first issue of this zine.
+.)f
+because I don't remember it at all. No doubt there was a curriculum\**
+.(f
+\**Not a bad thing when well done, but years of teaching experience have proven
+to me that most curricula are largely designed to take any and all fun out of
+learning, to say nothing of teaching.
+.)f
+for the class, complete with quizzes, assignments, tests, and long lists of
+vocabulary to memorize. It would have been completely dreadful and I would have
+hated it, and would have naturally forced all remnants of it from my memory, so
+that I would have room for lots of terrible memories from lots of terrible jobs.
+.pp
+Here's the flip side though. Let's assume I \fIdidn't\fP have a computer class
+with Mr. Dick. In that case, what I have are very fond memories of a room that I
+should not have had access to but was welcome to. For a very narrow slice of the
+space-time continuum, there a place where I was welcomed and people were okay
+with me just wandering around and pushing buttons.\**
+.(f
+\**I have for a very long time wanted to write a science fiction story about an
+alien race who loves pushing buttons so much that they build devices that are
+essentially just buttons to push that do absolutely nothing. Imagine a
+PlayStation controller without the actual PlayStation.
+.)f
+.pp
+Considering the huge problem that the modern tech industry faces with
+inclusivity and diversity, I feel pretty lucky to have had that opportunity.
+We need to create more of these places. Maker spaces are becoming a thing, and I
+hope that they are as warm and inviting as I remember that high school computer
+lab to be. Tech should open a lot of doors for a lot of people who normally find
+themselves locked out of opportunities, but tech is \fIexpensive\fP and these
+costs are gatekeepers in too many instances.\**
+.(f
+\**Which is one reason that I am interested in getting a Raspberry Pi and
+playing around with it, but in this case, I lack time, not money.
+.)f
+.pp
+If Oprah were really interested in changing the world, instead of handing out
+cars to a few hundred members of her studio audience,\**
+.(f
+\**Watch it while it lasts: \fChttps://www.youtube.com/watch?v=pviYWzu0dzk\fP
+.)f
+she should be handing out Raspberry Pis and Arduinos to hundreds of thousands of
+poor kids. But her viewers understand cars, not Raspberry Pis and Arduinos, and
+Oprah does not do what is good for society, but what is good for her bottom
+line. (The real privilege in getting a free car from Oprah is that you are able
+to actually take time off from your job and your life and go to Chicago to
+attend a taping of her show. But nobody really thinks about \fIthat\fP.)\**
+.(f
+\**You want to know who does a lot of good for people, but doesn't make it all
+about herself? Dolly Parton, that's who. Dolly Parton is a saint. We truly don't
+deserve her. Forget Zod. Kneel before Dolly.
+.)f
+.pp
+It saddens me that we are now at a price point where technology should be able
+to transform the lives of millions of people, and free them from the situation
+they are in now. I know a lot of people say that kids are so much more
+comfortable with technology now, but this really isn't a great thing. When I was
+a kid, you used technology to change your life. There wasn't a lot of
+technology, so it basically boiled down to learning how to use an extremely slow
+computer to do tasks you'd rather not do, using a VCR to record shows so that
+you could watch them at a later time, and duplicating cassettes and creating
+mix-tapes. As I grew into young adulthood and started teaching, I saw kids doing
+exactly that.\**
+.(f
+\**Of course, these were the kids whose parents had the money to buy a computer
+and pay for access to the internet, neither of which were cheap in the early
+90s.
+.)f
+Mix-tapes were replaced by mix-CDs. You could manipulate technology to improve
+your life, and when you were done, you shut if off and called it a day.
+.pp
+Now it's the other way around: technology manipulates you and you \fBcan't\fP
+shut it off. Websites (I'm thinking of Amazon here, as they are the best at it,
+but plenty of other websites do this as well) now \fItell\fP you what you want
+to buy. You can buy things on subscription so that you don't have to think any
+more.\**
+.(f
+\**It can be devilishly tricky to actually unsubscribe from some of these
+things, to the point where it's easier just to absorb the expense (we can always
+get the kids vaccinated \fInext\fP year) and just decide that this is how we
+live now.
+.)f
+Streaming services control what you watch or listen to. No longer can you just
+walk into a record store or a video store and get what you actually want. No
+longer will people experience the serendipity of walking into a store and
+finding a movie or album that becomes a huge part of their life. (I've
+discovered some of my favorite books that way. I truly believe certain objects
+just call to you.\**)
+.(f
+\**I know that's kind of woo-woo, and I am not into a lot of woo-woo stuff.
+Maybe it's more just a matter of getting out of the house and walking around
+with our eyes open.
+.)f
+.pp
+People have become addicted to their phones in a way I'd never imagined
+possible. (If you are ahead of me at a red light, and the light turns green,
+but you don't go because you don't notice that the light is now green because
+you're looking at your phone\(emI \fIwill\fP let you know that the light is now
+green and you can proceed through the intersection. Believe me, you
+\fIwill\fP know.)
+.pp
+Advertisements are everywhere, on every app, on every streaming service.\**
+.(f
+\**Including mindfulness meditation apps\(emsee the back cover.
+.)f
+They are constantly telling you that you need this product or this service,
+and it has become very difficult to screen that out, so much so that even drunk
+purchasing is now a substantial part of the economy.\**
+.(f
+\**\fChttps://www.finder.com/drunk-shopping\fP,
+.br
+\fChttps://www.marketwatch.com/story/amazon-is-prime-territory-for
+.br
+-drunk-shoppers-2019-03-25\fP, \fChttps://www.techtimes.com/articles/
+.br
+240241/20190326/drunk-us-adults-spend-48-billion-shopping-online
+.br
+-and-amazon-is-so-happy-about-it.htm\fP.
+.)f
+Before, you had to leave your house to get manipulated into buying something,
+now you don't even have to leave the house. You can literally shop yourself out
+of house and home without ever leaving your house or your home.
+.pp
+What was promulgated as a potential servant, ever willing and able to come to
+our assistance, has now become our master. For more about this, I've created a
+YouTube playlist that you can watch here: 
+
+.ce
+\fChttps://kjodle.info/techincharge\fP
+
+.pp
+What strikes me most about some of the videos in the the playlist I've linked
+above is that the emphasis on using technology is always that it will free up
+our time to spend time improving ourselves and relaxing. It's amazing how in
+many ways, we've far surpassed the technological capacities we imagined earlier,
+but rather than freeing up our time to improve ourselves (in true
+\fIStar Trek\fP style), we are merely slaves to our own creations. I shudder to
+think how ``Hotel California'' has become a daily reality for so many of us. But
+do any of us really have more spare time as a result of technology today? (I
+would like to think that as a species we are intelligent enough to do that, but
+the fact there there is a patch of plastic the size of Texas floating around in
+the middle of the Pacific Ocean tells me otherwise. ``Out of sight, out of
+mind'' is meant to be a warning, not permission to shift blame.)
+.pp
+It needn't be that way, however. If more of us had been able to experience what
+I experienced in that seventh grade computer class, perhaps our relationship to
+technology today would be different. Perhaps we would realize that, like the
+wheel or fire, technology is a tool to help us improve our lives, not to be led
+around by it. Of course, look at what we've done with both wheels and fire\(emwe
+are destroying each other and ourselves as well with them. Perhaps we never
+should have climbed down out of the trees onto the grassy savanna.
+.pp
+I don't know. It seems that our philosophy, or at the very least, our ethics,
+surrounding technology and what we do with it always lags far behind the cutting
+edge of that technology. If there are other species in the universe that have
+managed to travel faster than the speed of light, certainly they \fImust\fP have
+come to a philosophical decision about the role of technology in their daily
+lives.\**
+.(f
+\**Which explains why we only get visited by the butt probe aliens now. All the
+other aliens in the universe have given up on us.
+.)f
+.hx
+.bp
+\" Chapter 2
+.EQ
+delim off
+.EN
+.$c "A Scanner Clearly, or More Thoughts on Being an Archivist"
+.EQ
+delim $$
+.EN
+.lp
+In the first issue of this zine, I wrote about a basic workflow for archiving
+books through scanning them into pdf files. While I covered just about
+everything I wanted to cover on the computer end of things, I barely talked at
+all about the physical labor that goes into scanning a book. For those who are
+interested, here's what happens behind the scenes before you even get to the
+computer.
+\" Section
+.sh 2 "The Non-Computer Stuff" \n(ch 1
+.sp
+.lp
+First, you have to cut the book apart, and then separate the pages from the
+bindings. Older books are generally signature bound, and so it's simply a matter
+of cutting the backing off the signatures, cutting any strings holding them
+together, and then separating the signatures. This sounds easy, but it's a lot
+of work. If the book is perfect bound (i.e., individual pages are glued
+together, rather than signatures), it's just a matter of separating the pages
+very carefully a few pages at a time.
+.pp
+Second, you then have to trim the bound edges, so that the pages are separate.
+Perfectly bound books tend to have glue creeping up between each page, whereas
+signature bound books tend to have glue only creeping up between the signatures.
+I have a paper trimmer that allows me to clamp the pages down so that they
+don't move as I cut them, and I highly recommend something similar. It also has
+a measured grid to the left, so that I can ensure I'm cutting all the pages to
+the same width. (\fBProtip:\fP Put a piece of painter's tape on the grid to
+make this even easier.)
+.PSPIC images/paper_cutter.eps
+.pp
+After that, separate your pages into groups of equal numbers of pages that you
+will scan. This should be however many sheets your scanner can handle easily at
+one time, and will depend largely on the kind of paper the book was printed on.
+I generally find ten sheets (i.e., 20 pages) work well, and make it easier for
+me to count. Smaller groups means more work up front, but it also means that it
+is easier to fix things when (not \fIif\fP) something goes wrong.
+.pp
+Number all of your groups with the filename they will eventually have. I use a
+pencil and mark this lightly (or not so lightly, depending on the day) in the
+lower right corner of the first page:
+.PSPIC images/number_your_sections.eps
+.pp
+This is all about workflow for me. Since my scanner (a Brother MFC-J8050DW)
+scans whatever is facing \fIdown\fP in the document feeder, after I scan the
+first (i.e., odd-numbered) side, I should see odd numbers facing up in the ADF.
+I then know that I need to scan the side that is now facing down, which means
+that I don't turn them over, I just rotate them 180\(de in the $xy$-plane.
+.pp
+Most books have unnumbered pages. This should go without saying, but it's one
+of those things that you don't think about until after it becomes an issue:
+\fInumber all the blank pages\fP. Again, I just use a pencil:
+.PSPIC images/number_blank_pages.eps
+.pp
+Once you do all of this, you're ready to scan. You should have a pile of stuff
+that looks something like this:
+.PSPIC images/ready_to_scan.eps
+.pp
+As it turns out, if you have a couple of pages that bleed to the middle\**
+.(f
+\**Generally because of a photograph or illustration that continues across both
+the left and right pages.
+.)f
+you can pretend that they don't and simply trim those pages the same size as
+all your other pages. Or, if you want to preserve that bleed, you'll have to
+remove those sheets \fIbefore\fP you trim the edges, and separate them very
+carefully down the middle. If you are lucky, they are in the middle of a
+signature, and you can separate them with a sharp knife. If you are not lucky,
+they will be somewhere else, and may have glue holding them together, meaning
+you have to very carefully prise them apart. No matter how carefully you do
+this, you will inevitably lose some data.
+.pp
+You will end up with two sheets (i.e., four pages) that are a different size,
+and which will need to be scanned separately. In which case, it's good to use a
+cheat sheet to keep track of which groups are which sizes and how many pages are
+contained in each. I like to just jot this down on an index card, but if the
+book you are scanning is complex, you'll need a bigger sheet of paper.
+.PSPIC images/cheat_sheet.eps
+.pp
+You can do this math as a check on the final project.
+
+.TS
+center tab(%);
+r0 c0 l9 r.
+001-015 % = % $15 times 20$ % 300 pages
+016 % = % $1 times 4$ % 4 pages
+016-024 % = % $8 times 20$ % 160 pages
+025 % = % $1 times 12$ % 12 pages
+_
+Total % % % 476 pages
+.TE
+.lp
+After you are done scanning and combining files, you can open that final
+\fCfile.pdf\fP and you should be on page 1 of 476 pages.
+.pp
+Now we are \fIfinally\fP ready to start scanning.
+\" Section
+.sp -0.5
+.sh 2 "What Does This Have to do With Linux?"
+.sp
+.lp
+You may be wondering why I am spending so much time talking about using
+scissors and pencils and rulers when this is a zine about Linux. Sure, this is
+what I need to do to get ready to scan and put all those scans together using
+the command line application \fCpdftk\fP, but what is the point here?
+.pp
+If you recall back in the first issue, I said that doing things on the command
+line makes you think about \fIoutcomes\fP. Thinking about outcomes doesn't
+matter just on the computer. Like I said earlier, there is no ``undo'' button
+in real life.\**
+.(f
+\**Although I sometimes think that lawyers are just rich people's Undo buttons.
+.)f
+Once you've cut something apart, there's no putting it back together. You
+\fIhave\fP to think about what you want the next step of the process to be so
+that you don't do something in this step that makes the next step afterward
+difficult or even impossible. You have to think ahead about what you want to end
+up with. You have to know what you want.\**
+.(f
+\**And here I readily admit that you are probably going to do this a few times
+before you figure out a process for getting to that point. The workflow I laid
+out in section 2.1 took a few books to develop.
+.)f
+.pp
+I sometimes think that a GUI is like the menu at the McDonald's drive
+through.\**
+.(f
+\**It's no wonder that the menu in a GUI is called a \fImenu\fP, when you think
+about it.
+.)f
+If you are lucky, you are behind the person that knows what they want. They
+planned ahead. They thought about the outcome they wanted (full stomach, happy
+taste buds) and chose something ahead of time that would get them to that
+outcome. But a lot of people (too many people, in my opinion\**
+.(f
+\**Just one of many reasons I don't eat fast food any more.
+.)f
+get up to that order screen and \fIthat's\fP when they decide to start
+thinking about outcomes. They are so used to seeing a menu in front of them that
+they can't even begin making a decision without seeing it.
+.pp
+And let's face it: the menu at McDonald's has not really changed in years. Yes,
+they have new things, but they also advertise the hell out of them when they do.
+How can you \fInot\fP know about their new menu item if you watch more than 30
+minutes of television a day? But again, a GUI does not encourage you to think.
+The command line does. And again: most people just don't like to think.\**
+.(f
+\**I admit, I like to think, but I don't like to think \fIall the time\fP.
+Sometimes my brain needs a rest, so I make some popcorn and pull up something
+corny to watch on television for a while. But then my brain starts wandering,
+and I know it's time to get back to work.
+.)f
+They like the \fIillusion\fP of choice, and that is what substitutes for
+thinking most of the time. ``What are you getting at McDonald's?'' is too often
+followed by ``I don't know; I'll think about it when we get there.''
+.pp
+Of course, if you are thinking about outcomes, chances are you don't eat fast
+food very often anyway, because the long term outcomes are obesity, heart
+disease, and hypertension. But damn, those fries are good!
+\" Section
+.sh 2 "A GUI Solution"
+.sp
+.lp
+For what it's worth, there is a GUI for \fCpdftk\fP. It's called PDF Chain and
+you can find it at \fChttps://pdfchain.sourceforge.io/\fP.
+.pp
+Despite all my prattling on about the many advantages the command line has for
+your brain, I'm not opposed to using a GUI, actually. (I mean, I have Ubuntu
+installed on two machines and Kubuntu on a third\(emall GUIs that make Linux
+easier to use.) A GUI does make life easier in many ways, and what I like about
+one in a case like this is that if you're someone who has to manipulate pdf
+files rarely or only once, it's probably easier to just use a GUI than it is to
+learn the command line. Efficiency plays a role here, as well. If I'm going to
+use this all the time, it's definitely more efficient for me to learn the
+command line approach. But once or twice a year? Or only once ever? A GUI is
+much more efficient.
+.pp
+\fBtl;dr:\fP If you're only going to use a tool once, there's no issue with
+using the simplest tool required to get the job done. There's no point in being
+a command-line ascetic.
+.PSPIC images/pdfchain_-_title.eps 4.25i 3.66i
+.hx
+.bp
+\" Chapter 3
+.EQ
+delim off
+.EN
+.$c "Make Life Easier with bash Aliases"
+.EQ
+delim $$
+.EN
+.sp -1
+.lp
+.PSPIC -L images/intermediate.eps
+\h'3.15c'\v'-0.6c'\**
+.(f
+\**Why is this here? See the chapter ``What's to Like About Linux?'' later on in
+this issue.
+.)f
+.pp
+I'm not going to get into the difference between the command line, the terminal,
+and bash (the Bourne Again Shell, if you are interested.\**
+.(f
+\**You may not be, but after all, you are reading \fIthis\fP so you very well
+may be. I may talk about that in a future issue. (Also, it's called that whether
+or not you are interested in that. I know of very few things that have a
+conditional name.)
+.)f
+) For now, let's just assume that you know about \fCctrl alt t\fP opening a
+terminal window to get you access to the command line.
+.pp
+If you are used to using the command line, chances are that you have a certain
+set of commands that you use a lot. For example, if you're pushing to your
+Github repos all the time, you probably are typing \fCgit push origin main\fP
+quite often. You can create a bash alias that makes your life a lot easier.
+.pp
+Chances are, you will open the terminal in the root of your \fCHome\fP
+directory. You can tell by typing
+.sp 0.5
+.lp
+\fC\(Do pwd\fP
+.sp 0.5
+.pp
+\fCpwd\fP stands for ``\fCprint working directory\fP'' and shows you where you
+are. If you're in the home directory, you'll get something that looks like this:
+.sp 0.5
+.lp
+\fC/home/username\fP
+.sp 0.5
+.lp
+where ``\fCusername\fP'' is your login name.  If you're \fInot\fP in your home
+directory, you can get there with this command:
+.sp 0.5
+.lp
+\fC\(Do cd \(ap\fP
+.sp 0.5
+.lp
+The \(ap is shorthand for your home directory. (If you are logged in to the
+terminal as your username, it takes to \fC/home/username\fP. If you are logged
+in to the terminal as \fCsudo\fP, it takes you to the \fCroot\fP directory in
+the top level directory\(emwhere all those Linux directories are that we talked
+about in the last issue.) 
+.pp
+We are looking for an invisible file, so execute this command:
+.sp 0.5
+.lp
+\fC\(Do ls -a\fP
+.sp 0.5
+.lp
+The \fCls\fP command will list visible files, the \fC-a\fP option shows all
+files, including the invisible ones.
+.pp
+We are looking for a file called \fC.bashrc\fP. If you have a lot of stuff
+installed, you may have to scroll around to find it. Once you find it, open it
+in a text editor. This is in your home directory, so you can use whatever text
+editor you want and no \fCsudo\fP privileges should be required.
+.pp
+If you want, scroll through it. There is some interesting stuff there. But we
+want to create aliases, so go to the end, and type
+.sp 0.5
+.lp
+\fC# my aliases\fP
+.sp 0.5
+.lp
+The \fC#\fP means that this line is a comment. We'll add our aliases beneath
+this line.\**
+.(f
+\**Let's stop and reflect for a moment on how important it is to add comments
+to whatever we work on. When you come back to this file in six months or two
+years and ask yourself ``Why is this here? Who wrote this?'' your comment will
+tell you. I often find it handy to include the date as well, and any url where
+I found something useful. Check the source code of the preamble to this document
+for examples.
+.)f
+.pp
+Let's use our Github example. Add the following line:
+.sp 0.5
+.lp
+\fCalias gpush="git push origin main"\fP
+.sp 0.5
+.lp
+Save the file, and then go to one of your git repos, make some changes, and
+commit them. Then, when you want to push the changes to the remote repository,
+instead of typing \fCgit push origin main\fP just type \fCgpush\fP. Your
+terminal will do the rest for you.
+.pp
+You can also execute bash scripts as well. In addition to a local backup on an
+external drive, I also backup the directories in my home drive to a remote
+storage location. To make life easy, I created a script (called, naturally,
+\fCbackup.sh\fP) in each of those directories to back them up. To execute those
+backup scripts, I just need to go to that directory, open the directory in a
+terminal and type \fC./backup.sh\fP.
+.pp
+The problem here is that a lot of times, I'm not even in those directories when
+I'm saving files to them. I'm somewhere else. And to open the directory in my
+GUI and then open it in a terminal, or to open a terminal and then navigate to
+that directory, is a little \fItoo\fP much when I want to run that backup
+script. Remember, you want to back up soon, and you want to back up often.
+Backing up on that basis is a good habit to have. So let's remove as many
+obstacles to that habit as possible.\**
+.(f
+\**I am often amazed by how often people (myself included) want to form a new
+good habit (eat more fruit, get more exercise, etc.) and then put as many things
+as possible in the way of that habit. Again, it's because we're so used to the
+old, bad habit that we don't think. Sometimes we just need to get out of our own
+way.
+.)f
+In this case, we'll add an alias to run those backup scripts.
+.pp
+This is what I have in my \fC.bashrc\fP aliases:
+.sp 0.5
+.lp
+\fCalias kdoc="bash \(DoHOME/Documents/backup.sh"
+.br
+alias kdow="bash \(DoHOME/Downloads/backup.sh"
+.br
+alias kpic="bash \(DoHOME/Pictures/backup.sh"
+.br
+alias krec="bash \(DoHOME/Recordings/backup.sh"
+.br
+alias ktem="bash \(DoHOME/Templates/backup.sh"
+.br
+alias kvid="bash \(DoHOME/Videos/backup.sh"\fP
+.sp 0.5
+.pp
+Let's look at the first one. \fCkdoc\fP is the name of the alias. Since my
+first name is Ken, I prefix these with the letter \fCk\fP so I don't get them
+mixed up with something else. \fCbash\fP means to run this as a bash script.
+\fC\(DoHOME/Documents/backup.sh\fP means ``go to the \fChome\fP directory, then
+go to the \fCDocuments\fP directory, and run this script called
+\fCbackup.sh\fP''.
+.pp
+We can do other things as well. Log into your webhost via ssh a lot? Try this
+one:
+.sp 0.5
+.lp
+\fCalias kssh="ssh username@webhost.com"\fP
+.sp 0.5
+.lp
+Replace ``\fCusername\fP'' with your actual username and ``\fCwebhost.com\fP''
+with the actual host that you log into.
+.pp
+The next time you want to log into your host, just type \fCkssh}\fP (or whatever
+you choose to call your command; the choice is yours as long as it doesn't
+conflict with a built-in bash command), and it will automatically ask for your
+password, as it has already sent your username to your host. You've now typed
+four characters instead of 24. Nifty, huh?
+.lp
+This is probably my favorite, though:
+.sp 0.5
+.lp
+\fCalias kls="ls -Ahl"\fP
+.sp 0.5
+.lp
+This gives us a directory listing, but with these options:
+.bp
+.(l L
+.bu
+\fCA\fP lists all files and directories, including invisible ones (but
+excluding the . and .. directories\**).
+.bu
+\fCh\fP gives us file sizes in human readable sizes, i.e., ``4.0K'' instead of
+``4096 bytes''.
+.bu
+\fCl\fP gives us the listing as a list, because I find that to be more readable,
+especially with a directory that contains a lot of stuff. I'd rather just scroll
+up and down than scroll up and down \fIand\fP scroll right and left.
+.)
+.sp
+.pp
+Again, I'm typing three keystrokes instead of seven. When you spend eight or
+more hours a day on the computer, whatever keystrokes you can save really start
+to add up.
+.(f
+\**If you've ever wondered about what these are, here's a simple explanation.
+The . (dot) represents the current working directory, i.e., the one that you are
+in. The .. (dot dot) represents the parent directory, i.e., the directory that
+contains the directory you are currently in. Whenever you create a directory in
+a Unix-based system, it is added as a new entry to its parent directory, and
+these two entries (hard links) are created in the new directory.
+
+    \fCls\fP and
+\fCls .\fP are the same command: they give you the contents of the directory
+you are in. \fCls ..\fP gives you the contents of the parent directory to the
+one you are in. It's the same as going up into your parent directory, getting
+a content listing, and then moving back into the child directory you were just
+in. And for what it's worth, you can do \fCls ../..\fP to get the content
+listing of the grandparent directory. Nifty? Depends on how lost you are.
+
+    \fCcd ..\fP will move you up into your parent directory, whereas \fCcd .\fP
+moves you nowhere, because you are literally telling the terminal to change the
+directory to the current directory. It's a bit like changing into the underpants
+you are currently wearing.
+
+    Anyway, enough of the stupid human tricks.
+.)f
+.pp
+And that's it. Just about anything you type often on the command line can be
+turned into a bash alias to save you time. Go for it. It's a great way to manage
+your mischief.
+.hx
+.bp
+\" Chapter 4
+.EQ
+delim off
+.EN
+.$c "What Have I Installed?"
+.EQ
+delim $$
+.EN
+.lp
+I've mentioned the Unix Principle before: each application should do one thing
+and do it really well. The advantage to this principle for end users is that you
+don't need to worry about installing (or even paying for) a huge app that does a
+million things when you only need it for doing one. The advantage for developers
+is that you don't \fIneed\fP to develop an app that does everything, so you can
+keep a laser-like focus on making an app that works really well.\**
+.(f
+\**Although there will always be those people who get your app for free and then
+complain that it \fIdoesn't\fP do everything. Hey bub, Swiss army knives are two
+aisles over and come with a price tag.
+.)f
+.pp
+The downside is that you are likely to install a lot of apps as a result. This
+is ordinarily not a problem, unless you are going to migrate to a new machine or
+are swapping out an HDD for an SSD. This is where I found myself in 2020 when
+Ubuntu 20.04 came out, and I decided to install a new SSD in my 2013 Asus
+laptop, replacing the 300 GB HDD it came with. Of course, I could simply clone
+the old HDD onto my new SSD and then swap them out and upgrade, but for reasons
+that are long, complicated, and very likely boring, I decided this would be as
+good a time as any to just start with a clean slate.
+.pp
+Again, normally this is not an issue. But I have a Behringer C-1U microphone
+that I use for podcasting, and it only works on Ubuntu if I have a particular
+piece of software installed. For the life of me I could not remember what it
+was, but it was installed on this laptop, so it ought to have been easy to find.
+.pp
+For what it's worth, any software package you install that has a graphical user
+interface will appear in your applications menu. (On Ubuntu, it's the
+``Show Applications'' button in the lower left corner of your main screen.) But
+a lot of apps don't have a GUI\(emthey're meant to be used from the command
+line. There isn't a graphical way to see a list of those. So we're off to the
+command line.\**
+.(f
+\**\fBNote:\fP What I'm describing in this section applies to Ubuntu and its
+derivatives, since that's what I use and and most familiar with. Other flavors
+of Linux will probably have similar ways of doing what I'm going to talk about
+here.
+.)f
+\" Section
+.sh 2 "apt" \n(ch 1
+.sp
+.lp
+Here's the command:
+.sp 0.5
+.lp
+\fC\(Do apt list --installed\fP
+.sp 0.5
+.pp
+When I ran this on my newly upgraded version of Ubuntu 22.04 (Jammy Jellyfish)
+its output ran to 2,811 lines, starting with
+.sp 0.5
+.lp
+.ps 7
+\fCaccountsservice/jammy,now 22.07.5-2ubuntu1 amd64 [installed,automatic]
+.br
+acl/jammy,now 2.3.1-1 amd64 [installed,automatic]
+.br
+acpi-support/jammy,now 0.144 amd64 [installed,automatic]
+.br
+acpid/jammy,now 1:2.0.33-1ubuntu1 amd64 [installed,automatic]
+.br
+adduser/jammy,jammy,now 3.118ubuntu5 all [installed,automatic]\fP
+.ps
+.sp 0.5
+.pp
+and ending with 
+.sp 0.5
+.lp
+.ps 7
+\fCzim/jammy,jammy,now 0.74.3-1 all [installed]
+.br
+zip/jammy,now 3.0-12build2 amd64 [installed,automatic]
+.br
+zlib1g-dev/jammy,now 1:1.2.11.dfsg-2ubuntu9 amd64 [installed,automatic]
+.br
+zlib1g/jammy,now 1:1.2.11.dfsg-2ubuntu9 amd64 [installed,automatic]
+.br
+zstd/jammy,now 1.4.8+dfsg-3build1 amd64 [installed,automatic]\fP
+.ps
+.sp 0.5
+.pp
+So what's happening here? Let's take a look at the relevant part of the
+\fCman apt\fP file:
+.(q
+list is somewhat similar to dpkg-query --list in that it can display a list of
+packages satisfying certain criteria. It supports glob(7) patterns for matching
+package names as well as options to list installed (--installed),
+upgradeable (--upgradeable) or all available (--all-versions) versions.
+.)q
+.ll 4.5i
+.pp
+This command is giving us a lot of output because it's showing \fIeverything\fP
+that was installed using the \fCapt\fP command. You might think that you haven't
+really installed that much stuff, but \fCsudo apt install\fP will sometimes
+install additional software needed to make the software you are actually
+interested in run. If you ever install something using \fCapt\fP and see a
+message like ``The following additional packages will be installed:'' those
+additional packages will appear when you use this command.
+.pp
+Remember those glob patterns? If you want to check to see whether a particular
+app is installed, you can pipe the output to \fCgrep\fP and let it do the work.
+For example, let's see if I have ghostscript installed:
+.sp 0.5
+.lp
+\fC\(Do apt list --installed | grep ghostscript\fP
+.sp 0.5
+.pp
+and because I do, I get this output:
+.sp 0.2
+.lp
+.ps 6
+\fCghostscript-x/jammy,now 9.55.0~dfsg1-0ubuntu5 amd64 [installed,automatic]
+.br
+ghostscript/jammy,now 9.55.0~dfsg1-0ubuntu5 amd64 [installed,automatic]\fP
+.ps
+.sp 0.5
+.lp
+\fCapt\fP also has a related command, called \fCapt-mark\fP:
+.sp 0.5
+.lp
+\fC\(Do apt-mark showmanual\fP
+.sp 0.5
+.pp
+But more about that in a bit.
+\" Section
+.sh 2 "dpkg"
+.sp
+.lp
+If you want something a bit more tabular, you can always run 
+.sp 0.5
+.lp
+\fC\(Do dpkg-query -l | less\fP
+.sp 0.5
+.pp
+You will get a nice, very \fIwide\fP table that shows you a list of all
+installed packages, their version, their architecture (amd64 and whatnot), and
+a short description. Unfortunately, the output is again huge. Outputting this to
+a text file produced 2,971 lines.
+.pp
+That short description is pretty handy however when you're rooting around in the
+\fCbin\fP folder and wondering what things do, actually. If you want to find out
+what a particular package does, you can again pipe its name to \fCgrep\fP:
+.sp 0.5
+.lp
+\fC\(Do dpkg-query -l | grep ghostscript\fP
+.sp 0.5
+.pp
+which gives us this:
+.sp 0.5
+.lp
+.ps 7
+\fCii  ghostscript     9.55.0~dfsg1-0ubuntu5     amd64     interpreter for the 
+PostScript language and for PDF
+.br
+ii  ghostscript-x   9.55.0~dfsg1-0ubuntu5     amd64     interpreter for the 
+PostScript language and for PDF - X11 support\fP
+.ps
+.sp 0.5
+.pp
+I don't find this very useful however, because again, that is formatted in a far
+wider table than most terminal windows (I took out a lot of extra space, and
+still had to wrap things onto a second line), and honestly, if you want to know
+what an app does, it's probably easier to just look it up on the web. (Still,
+it's rather useful to know that one of these packages is for X11 support.)
+\" Section
+.sh 2 "snap"
+.sp
+.lp
+If you use snap packages (which are controversial in some quarters), you can
+always see what you've installed by using this command:
+.sp 0.5
+.lp
+\fC\(Do snap list\fP
+.sp 0.5
+.pp
+This is again displayed in a pretty wide table, but it also gives you the
+Version, the Revision, the Tracking status (``latest/stable'' in most cases),
+the Publisher (Canonical, Mozilla, etc), and Notes.
+\" Section
+.sh 2 "flatpak"
+.sp
+.lp
+If you use flatpak to install software, the command is similar to snap:
+.sp 0.5
+.lp
+\fC\(Do flatpak list\fP
+.sp 0.5
+.pp
+That's all I have. Sorry, but I have just haven't gotten around to using
+flatpaks. It's possible I never will.\**
+.(f
+\**The Canadian comedy troupe The Kids in the Hall have a song called
+``The Daves I know''. Look it up on YouTube, and when it gets to the part about
+Dave Capisano, the mechanic (``I hardly know him'') that's where I am with
+flatpak.
+.)f
+\" Section
+.sh 2 "The Real Issue"
+.sp
+.lp
+The real problem with all of these approaches is that none of them do a very
+good job of telling what you actually want to know: which software packages did 
+I \fIdeliberately\fP install? And that's because computers aren't smart. (They
+also aren't stupid. They just \fIare\fP.) They only know what you tell them.
+They have no idea what you \fImean\fP.
+.pp
+In fact, I found a page on StackExchange\**
+.(f
+\**\fChttps://askubuntu.com/questions/17823/how-to-list-all-installed-
+.br
+packages\fP
+.)f
+that was first asked in December 2010 and was last modified in March 2022, has
+24 answers, and has been viewed 4.6 million times. There simply isn't a way
+(that I could find, at least) to figure this out easily. Even something as
+straightforward as \fC\(Doapt-mark showmanual\fP still shows a lot of programs
+that I \fItechnically\fP installed myself, simply because I updated from 20.04
+to 22.04 via the command line.
+.lp
+\fIMeet my friend, Occam.\fP
+.pp
+The irony is that the Unix Principle came out in the 1970s, but in the early
+1960s the US Navy came out with a different, yet similar, principle called KISS:
+keep it simple, stupid.
+.pp
+This means that instead of looking backward (i.e., ``What did I install a year
+ago when I was several beers deep?'') we should be looking forward (i.e., ``What
+am I about to install, and then possibly remove, while I am completely sober and
+trying to solve a problem that is currently driving me up the wall and so once
+I've solved it, I will be so happy to have solved it that I will immediately
+forget what I did to solve it?'').
+.pp
+The solution is simple: \fIwrite it down\fP.
+.pp
+When I upgraded this computer, I also bought a new desk for it, and I threw a
+notebook in the drawer. Whenever I install something, I make a note of it in the
+notebook. If I delete it a few days or months later, I add a note of when I
+deleted it and why. (That ``why'' is important. I may be able to remember the
+problem that particular piece of software solved, and may not remember the rat's
+nest of problems it went on to create for me.)
+.PSPIC -C images/notebook.eps
+.sp -0.5
+.ce 2
+\s-3\fIOf course I would select a black notebook and a black desk.
+.br
+.sp -0.3
+Let's use \f(BIall\fP the toner.\fP\s0
+.sp 0.4
+.pp
+Sure, you could just keep a list on your computer (text files if you want to
+keep it simple, or you could just \fC<shudder>\fPuse a spreadsheet as a
+database\fC</shudder>\fP. But if your computer fails, then your list fails.
+Sometimes paper really is the best way to go.
+.pp
+Of course, I've also just purchased a RocketNotebook and have been experimenting
+with that, and maybe storing my scribbles in the cloud is the way to go. We
+shall see.
+.hx
+.bp
+\" Chapter 5
+.EQ
+delim off
+.EN
+.$c "What's to Like About Linux?"
+.EQ
+delim $$
+.EN
+.lp
+I have an app on my phone called ``The Stoic'' that shows quotations from
+various Stoic philosophers. As I was working on this issue, this popped up:
+.(q
+Because a thing seems difficult for you, do not think it impossible for anyone
+to accomplish.
+
+.ad r
+.sp -0.6
+\(em\fBMarcus Aurelius\fP
+.)q
+.ll 4.5i
+.ad b
+.sp 0.5
+.pp
+When I first thought about doing the second issue of this zine, I thought it
+would be really cool if I included some sort of key to any tutorial that I
+include, that tells you if this is a beginner level tutorial, an intermediate
+level tutorial, or an advanced level tutorial. If you peek at the beginning of
+chapter three, you'll see a button that looks like this:
+.PSPIC -L images/intermediate.eps
+.sp 0.3
+.lp
+Like it? I have a couple more:
+.PSPIC -L images/beginner.eps
+.sp -2.25
+.PSPIC -C images/advanced.eps
+.sp 0.5
+.lp
+But the more I thought about it, the more I began to think that this is
+\fBnot\fP a good idea. There are a couple of reasons for this.
+.pp
+First, who am \fII\fP to decide if something is beginner, intermediate, or
+advanced level, especially when it comes to computers? I'm not an expert in all
+things computers, much less all things Linux. The most I can say is that ``Oh,
+yeah, this is one of the first things I learned how to do'' which \fIimplies\fP
+that it's a beginner level. But it might not be. It's just where \fII\fP
+started. Somebody else might start somewhere else, in a place that I didn't
+bother to get around to for years, and which I tend to think of as intermediate
+or advanced level. But to them, it's where they started, and so they'll also
+think of it as beginner level. LaTeX has been around for a long time, but it
+always seemed very advanced to me. As it turns out, it's not difficult to learn.
+(Although like most things, learning a thing and mastering a thing are very
+different activities.) Things can be difficult if you don't have the proper
+tools for them, but does that mean they're advanced?
+.pp
+Second, these words are highly contextual. What does ``beginner'' even mean?
+Someone who's just sat down to a computer for the first time in their life? Or
+someone who's been working on computers since they were ten years old, but are
+just now beginning to learn LaTeX? These words are easier to define in other
+areas, such as sports or music, where you have to learn to skate before you can
+play hockey, and you have to learn scales and chords before you can play
+music.\**
+.(f
+\**Although I am not an expert in either of these things, and maybe it is
+possible to learn hockey and music without learning how to skate or learning
+scales and chords first. To each their own.
+.)f
+Computers are the great levelers of walls and fences, provided, of course, that
+you have access to one.
+.pp
+Third, people may self-select out of things. Many years ago, I taught computer
+classes at my local community education center.\**
+.(f
+\**One of the things I learned is that is a right way and a wrong way to teach
+people how to use computers. I should write about that sometime.
+.)f
+It was a tremendous amount of fun, both for me and my students, who came from
+all walks of life.\**
+.(f
+\**Or as many walks of life as one could find in this one-stoplight town.
+.)f
+They were \fIoccassionally\fP intimidated by certain things, but for the most
+part, they were eager to learn as much as they could. 
+.pp
+The class was extremely inexpensive, but it was rarely ever full, which made
+me wonder why more people didn't take this class. There are two answers here.
+First, this was the early 90s and a lot of people didn't even have computers at
+home, so what would be the point for them? (You don't need a car if you have no
+place to go.) Second, a lot of people were terribly intimidated by computers,
+because they thought you had to be really smart to use them. So they
+self-selected out of something they were perfectly capable of learning because
+they thought it was too advanced for them.\**
+.(f
+\**People are really afraid of making mistakes and looking stupid, but that's a
+by-product of our public education industrial complex. You can't learn
+\fIanything\fP without making mistakes. In fact, people who are truly experts
+about things often point out that they learn as much or more from their mistakes
+than they do from their successes. But we have turned making mistakes into
+something to be ashamed of, rather than something which will help us learn and
+understand things. Fuck that attitude. Go forth and make mistakes. (Just not in
+the voting booth.)
+.)f
+Let's encourage people to self-select \fIin\fP, rather than out, because once
+they get here they'll have a lot of fun. Let's not be gatekeepers. 
+.pp
+Fourth, it implies that there is a hierarchy, which I hate. There are many ways
+in. Because math is so strongly allied to computer science, we tend to view
+learning about computers as hierarchical as well.\**
+.(f
+\**I think this is one of the reasons that most people aren't good at math and
+don't like math. Sure, you need to know \fIsome\fP algebra to do geometry, but
+you don't need to be an algebra expert. If you really like geometry, and are
+encouraged to apply yourself to it, you'll eventually learn all the algebra you
+need. The same is true of trigonometry and even calculus. You don't need to
+become an expert in those earlier forms of math; you only have to become good
+enough at them to move on to the next step. People who write math curricula
+should take note, but they won't.
+.)f
+But that just isn't the case. I started
+learning how to write BASIC when I was in sixth grade because that's all that
+was available to us. But basic BASIC is no different than basic Fortran, or
+basic Cobol, really. The only difference is that BASIC is fairly limited in
+scope, which was, sadly, all that was deemed appropriate for kids. It's like
+giving kids little fake plastic tools when they really want to build something.
+Put the kids in a sandbox with real tools and turn them loose: let them
+experiment with them and figure out how they work. But we never do
+that.\**
+.(f
+\**This is, coincidentally, the same sort of thinking that doesn't like sex
+education, despite the many studies that have shown, conclusively and
+repeatedly, that when kids have access to high-quality, non-biased sex
+education, the rates of teen pregnancy and teen STDs decrease, often
+dramatically. (It's silly.  A little learning can help you know what to do, but
+it can also help you know what \fInot\fP to do. Sure, some people need to burn
+their hand to learn that the stove is hot, but the vast majority of us can learn
+just by watching others howl in pain from a burned hand. Pictures are worth a
+thousand words. Moving pictures are worth a million words.)
+.)f
+.pp
+I don't want to be a gate-keeper. I want to be a gate-opener. In fact, I want to
+be a crusher of gates. There is no single path. You have to find your own path.
+Find your mentors, and carve your own trail. This isn't about ego. Knowledge is
+not pie. There's plenty for everybody.
+.hx
+.bp
+\" Chapter 6
+.EQ
+delim off
+.EN
+.$c "Ubuntu 22.04"
+.EQ
+delim $$
+.EN
+.lp
+I've been with Ubuntu for a while now, and generally get pretty excited about
+new releases. Ubuntu 22.04 was no different. Until I installed it, that is.
+.pp
+Ubuntu 22.04 is without a doubt the most bug-filled LTS\**
+.(f
+\**Long Term Support
+.)f
+version of Ubuntu I have ever used.
+.pp
+First, they have removed Python2. If you have any applications which depend on
+Python2, such as PDF Booklet,\**
+.(f
+\**Which is what I use to make the physical form of this zine. See
+\fChttps://pdfbook
+.br
+let.sourceforge.io/wordpress/\fP for more information.
+.)f
+those tools are now unusable. And despite numerous attempts to reinstall Python2
+just to make this one app work, I have thus far been unsuccessful.
+.pp
+Second, there is this weird problem with saving files from \fIany\fP browser.
+You can pick a folder to download to, and from that point on in your session,
+this is the only folder you can download items to. Sure, you can migrate to a
+different folder and try to download there, and it looks like you're actually
+saving your file there, but nothing gets downloaded. You can look at the folder
+and at your download history and quite plainly see that there is nothing
+there.\**
+.(f
+\**See
+\fChttps://askubuntu.com/questions/1406265/ubuntu-22-04-firefox-does-not-download-file-to-desktop\fP and
+\fChttps://askubuntu.com/ques
+.br
+tions/1406674/cant-download-files-after-upgrade-to-22-04\fP
+.)f
+As it turns out, if you click on the \fIfilename\fP in the save dialogue box
+(and therefore give it focus), then you can change where you download the file
+to.
+.pp
+This is an odd bug to allow to get through, as for the longest time the
+question ``What does everyone use Internet Explorer for?'' was answered by
+``To download an actual web browser.'' I guess you can always use Ubuntu to
+download a version of Linux which is not plagued by such obvious mistakes.
+.pp
+Third, the default video player (Totem) cannot play .mp4 files.\**
+.(f
+\**See
+\fChttps://askubuntu.com/questions/1406254/after-installing-ubuntu-22-04-the-default-video-player-is-unable-to-play-any-vi\fP.
+.)f
+Yes, I know that .mp4 is not strictly open source (as some of the codecs are
+patented) and I also know that you can install these codecs with \fC\(Do sudo
+apt install ubuntu-restricted-extras\fP, but if you have a phone, or a video
+camera, they probably record video as .mp4 files, and it would be nice if you
+could see view them on your computer.
+.pp
+Fourth, the new screen capture tool in the Gnome desktop is an absolute
+disaster. It requires you to go through a ``screenshot portal'' each and every
+time you create a screenshot, \fIregardless\fP of which screenshot tool you use.
+It's ridiculous, as I (and many other users) already had a workflow for
+screenshots, and this is not acceptable in an open-source operating system
+(which actually makes me wonder how ``open-source'' open-source software
+actually is). Of course, people are upset, because this is a solution in search
+of a problem to solve. I have no idea why \fIanybody\fP thought this was a good
+feature to include. And of course, the developers have closed off any discussion
+of this topic.\**
+.(f
+\**See
+.br
+\fChttps://gitlab.gnome.org/GNOME/gnome-shell/-/merge_requests/1970\fP,
+.br
+\fChttps://gitlab.gnome.org/GNOME/gnome-shell/-/issues/4895\fP, and
+.br
+\fChttps://github.com/flatpak/xdg-desktop-portal/issues/649\fP.
+.)f
+Listen, if a lot of people complain, you should listen to them. If a lot of
+people complain, and complain vehemently, then it's probably because you fucked
+up really badly.
+.pp
+I've lived and worked with Ubuntu for several years now. And until 22.04, I've
+always been extremely happy with each new release and upgraded as soon as it was
+available. And I've always upgraded without regret. I guess that is now a thing
+of the past.
+.pp
+Look, I get that you want to keep to a release schedule. But we had a global
+health crisis in the middle of that. I would have been okay if you had said
+``Yeah, mate, we get you're more concerned about your family's well-being. We
+are too. So this release is going to be six
+months/a year/two years/what-the-fuck-ever behind.'' I would have been
+\fIso\fP okay with that.
+.pp
+But I'm not okay with Ubuntu 22.04. It is an utter embarrassment. How it was
+ever released without consideration of these issues is beyond my comprehension.
+I used to recommend Ubuntu to all my friends, and now I don't. I just can't. I
+myself am embarrassed about these issues. Do yourself a favor and avoid Ubuntu
+22.04 until these issues (and no doubt other issues I'm not aware of) are
+addressed and fixed.
+.hx
+.bp
+\" Chapter 7
+.EQ
+delim off
+.EN
+.$c "Coda"
+.EQ
+delim $$
+.EN
+.sp -2
+\" Section
+.vs 24p \" Helps with the multi-line section title
+.sh 2 "What I Learned About LaTeX While Creating This Issue" \n(ch 1
+.vs
+.sp
+.lp
+As a big part of the reason I created this zine was to learn more about LaTeX,
+I'm keeping up with this running list.
+.sp 0.5
+.(l L F
+.ip 1.
+Need a little horizontal space? Use \fC\\hphantom{<stuff>}\fP where
+\fC<stuff>\fP is any standard unit. (I use this down below to separate the two
+images with borders when they are on the same line.)\**
+.(f
+\**There is more information on spacing at
+\fChttps://latexref.xyz/Spaces.html\fP and also at
+\fChttps://tex.stackexchange.com/questions/74353/what-
+.br
+commands-are-there-for-horizontal-spacing/74354\fP.
+.)f
+.sp 0.5
+.ip 2.
+Need a box around an \fC\\includegraphics[scale=\(bu]{\(bu}\fP item? Just wrap
+it in \fC\\frame{}\fP. (Ditto.)
+.sp 0.5
+.ip 3.
+Want a blockquote? Use the \fCquote\fP environment. (I wrapped mine in a
+\fCsmall\fP environment to help set it off, as most blockquotes or indented
+quotations use a slightly smaller font in traditional printed material.\**)
+.(f
+\**Yes, it bugs me when people use the word \fIquote\fP as a noun, but the
+usage is here to stay, so I shall learn to live (somewhat begrudgingly) with it.
+.)f
+.sp 0.5
+.ip 4.
+ You can draw with the \fCtikz\fP package. You can also draw chemical structures
+with the \fCchemdraw\fP package. I have no idea how to write about those things
+on paper in an interesting way, so it may be some time (or never\(emnever is
+always an option) before I get around to that. But there's an example at the
+end.
+.sp 0.5
+.ip 5.
+You can also draw just using the \fCpicture\fP environment.\**
+.(f
+\**There is a good tutorial at
+\fChttps://www.overleaf.com/learn/latex/Picture
+.br
+_environment\fP.
+.)f
+.sp 0.5
+.ip 6.
+As with most things that are *nix-based, there is usually more than one way to
+get to where you are going. Often, there are many ways, and they lead you down
+paths you hadn't even imagined. A little research goes a long way. (See the next
+two sections as examples of this. I had not even thought about this before I sat
+down to write this.)
+.sp 0.5
+.ip 7.
+There are ten characters that have special meaning in LaTeX.
+.br
+.sp 0.5
+To typeset:
+.ce
+&  %  \(Do  #  _  {  }
+.br
+.sp 0.5
+you have to prepend them with a backslash (\\).
+.br
+.sp 0.5
+To typeset:
+.ce
+~ \h'0.2c' ^ \h'0.2c' \\
+.br
+.sp 0.5
+you have to use the macros \fC\\textasciitilde\fP,
+.br
+\fC\\textasciicircum\fP, and \fC\\textbackslash\fP.
+.)l
+\" Subsection
+.sp -0.5
+.nr sp 13 \" Make the subsection title font smaller
+.sh 3 "LaTeX Without a GUI" \n(ch 1
+.sp
+.lp
+Despite my blathering on about the benefits of the command line, I'm actually
+using a GUI editor called Texmaker (which you can find at
+\fChttps://www.xm1math.net/texmaker/\fP). This seemed the easiest way to learn
+LaTeX at the time, because all you have to do to get a readable pdf is to press
+\fCF1\fP.
+.pp
+But you don't need to go that route. You can do this entirely from the command
+line. Simply create a LaTeX document in any text editor, and save it with a
+\fC.tex\fP extension. From that point, simply run the following command in a
+terminal:
+.sp 0.5
+.lp
+\fC\(Do latex file.tex\fP
+.sp 0.5
+.pp
+This command should generate the following files:
+.sp 0.5
+.lp
+\fCfile.dvi
+.br
+file.aux
+.br
+file.log\fP
+.sp 0.5
+.pp
+\fCfile.aux\fP contains information your document needs to manage any
+cross-references in your document. \fCfile.log\fP contains information about how
+your file was processed; if you run into errors, this is a good place to find a
+solution, or at least to find what to search the internet for. But it's the
+\fCfile.dvi\fP file that we're interested in.
+.pp
+\fC.dvi\fP files are device independent files. They're a lot like PostScript or
+PDF, but \fIwithout\fP font embedding. To convert this to a pdf file, run the
+following command:
+.sp 0.5
+.lp
+\fC\(Do dvipdf file.dvi\fP
+.sp 0.5
+.pp
+This should generate \fCfile.pdf\fP which you can read in any document viewer.
+You may need to install \fCdvipdf\fP\(emon my system (Ubuntu 20.04 at the time)
+it was not installed.
+.pp
+You can also just run \fCpdflatex\fP (which again, you may have to install),
+which skips over making a \fC.dvi\fP file:
+.sp 0.5
+.lp
+\fC\(Do pdflatex file.tex\fP
+.sp 0.5
+.pp
+This should generate the following files:
+.sp 0.5
+.lp
+\fCfile.aux
+.br
+file.log
+.br
+file.pdf\fP
+.sp 0.5
+.pp
+I have noticed that when I generate the pdf file using the former method, I get
+a much smaller file than I do the second time. As an experiment, I ran the
+\fCintegral.tex\fP file that I created later in the next section through both of
+these methods. Running the file through \fClatex\fP and then through
+\fCdvipdf\fP resulted in a pdf file that was only 7.0 kb in size. But when I ran
+it solely through \fCpdflatex\fP, I ended up with a pdf file that was 30.5 kb
+big. This is most likely due to a difference in compression methods\**
+.(f
+\**See this for more information: \fChttps://tex.stackexchange.com/
+.br
+questions/38145/why-does-pdflatex-produce-bigger-output-files-than-
+.br
+latexdvipdfm\fP
+.)f
+so this could make a difference for you if you are working with large documents.
+.pp
+Go forth and manage your mischief.
+\" Subsection
+.sp -0.5
+.sh 3 "Custom Page Sizes"
+.sp 1
+.lp
+Okay, this is important enough that it deserves its own section.
+.pp
+Part of what makes LaTeX great is that it's really good at typesetting
+mathematical formulas, such as
+.sp 0.5
+.pp
+$x sup n ~ + ~ y sup n ~ = ~ z sup n$
+.sp 0.5
+.pp
+Here's the thing, though: I didn't create that formula in this document. It's
+just an image. I created it in a separate LaTeX document, using a custom page
+size. This can be handy if you want to use it in something that doesn't typeset
+math formulas, such as a presentation.\**
+.(f
+\**PowerPoint much? As much as I try to avoid PP, it seems to have gained
+something akin to Favored Nation Status in the business world. Such is life,
+alas.
+.)f
+.pp
+The source code looks like this:
+.sp
+.TS
+tab(%);
+r5 l.
+\fC\s-31\s0 % \\documentclass{article}
+\s-32\s0 % \\usepackage[
+\s-33\s0 %         left=0.1cm,
+\s-34\s0 %         right=0.1cm,
+\s-35\s0 %         top=0.1cm,
+\s-36\s0 %         bottom=0.1cm]
+\s-37\s0 % {geometry}
+\s-38\s0 % \\begin{document}
+\s-39\s0 % \\pdfpagewidth=2.3cm \\pdfpageheight=0.7cm
+\s-310\s0 % \\noindent \(Do x^n + y^n = z^n \(Do
+\s-311\s0 % \\end{document}\fP
+.TE
+.sp 0.5
+.pp
+That's it; that's the entire document. Let's take a closer look at what is
+happening here.
+.pp
+Lines 2-7 use the \fCgeometry\fP package to give us some pretty tight margins.
+This is a good thing, as this is going to be clip art. We could set them to zero
+if we needed to (and which might not be a bad idea, actually).
+.pp
+Line 9 is where the magic happens. It allows us to set the actual page size of
+this example. And yes, I could have just used the \fCgeometry\fP package to
+declare the page size in the preamble. It's what I do with this document. But
+doing that affects \fIall\fP the pages in our document. This lets us handle
+page size on a page-by-page basis, as we shall see. All we need to do is add a
+new page and resize everything again. Take a look at this:
+.sp
+.TS
+tab(%);
+r5 l.
+\fC\s-31\s0 % \\documentclass{article}
+\s-32\s0 % \\usepackage[
+\s-33\s0 %         left=0.1cm,
+\s-34\s0 %         right=0.1cm,
+\s-35\s0 %         top=0.1cm,
+\s-36\s0 %         bottom=0.1cm]
+\s-37\s0 % {geometry}
+\s-38\s0 % \\begin{document}
+\s-39\s0 % \\pdfpagewidth=2.3cm \\pdfpageheight=0.7cm
+\s-310\s0 % \\noindent \(Do x^n + y^n = z^n \(Do
+\s-311\s0 % \\newpage
+\s-312\s0 % \\pdfpagewidth=4.6cm \\pdfpageheight=1.4cm
+\s-313\s0 % \\noindent \(Do x^n + y^n = z^n \(Do
+\s-314\s0 % \\end{document}\fP
+.TE
+.pp
+I admit, I had to play around with the variables here, which is a bit of a pain.
+Fortunately, there is a way to automatically fit the page size to the content,
+provided I only want to create a single page: use the \fCstandalone\fP document
+class. This source code:
+.sp 0.5
+.TS
+tab(%);
+r5 l.
+\fC\s-31\s0 % \\documentclass{standalone}
+\s-32\s0 % \\begin{document}
+\s-33\s0 % \\noindent \(Do x^n + y^n = z^n \(Do
+\s-34\s0 % \\end{document}\fP
+.TE
+.sp 0.5
+.lp
+gives us this output
+.sp 0.5
+.pp
+$x sup n ~ + ~ y sup n ~ = ~ z sup n$
+.sp 0.5
+.pp
+We've now managed to do with one line of code what previously took us 8 lines
+of code. I would call that efficient.
+.pp
+You'll also notice that there is no border spacing around the second formula.
+This is handy in the event that I want to drop this into a word processing
+document. I'll add a box around these images so you can see the actual size:
+.PS
+box "$x sup n ~ + ~ y sup n ~ = ~ z sup n$" wid 0.85 ht 0.3
+move to 1st box .se;
+move right 0.7;
+move up 0.0015;
+box "$x sup n ~ + ~ y sup n ~ = ~ z sup n$" ht 0.15
+.PE
+.lp
+Also, for reasons I don't know yet, the typical way of starting and ending a
+math environment in LaTeX (i.e., \fC\\[...\\]\fP doesn't work in the
+\fCstandalone\fP document class.. Only \fC\(Do...\(Do\fP and \fC\\begin{math}\fP
+ \fC...\\end{math}\fP do.
+.pp
+The \fCstandalone\fP class is definitely pretty handy. Now, let's combine this
+idea with converting \fC.tex\fP documents directly into pdf files without using
+a GUI. There is a program called \fCdvipng\fP which you should be able to
+install from the command line, which will convert these \fC.dvi\fP files to
+\fC.png\fP files just by running:
+.sp 0.5
+.lp
+\fC\(Do dvipng file.dvi\fP
+.sp
+.pp
+If you need a \fC.gif\fP file instead,\**
+.(f
+\**dude, wtf?
+.)f
+just add the \fC--gif\fP flag:
+.sp
+.lp
+\fC\(Do dvipng file.dvi --gif\fP
+.sp
+.pp
+I'm not going to forget about the first method, though. This could be handy if I
+wanted to create something (such as a business card) that is a standard size
+that I want to repeat, or if I want to print on a smaller, non-typical format
+that LaTeX doesn't have a built-in page size for. I have a few ideas where I
+might use this; I'll try them out and report back in a later issue.\**
+.(f
+\**Probably, but no guarantee. Other people have a train of thought; I have a
+Roomba of thought. I may bump into a chair leg at some point and go off in a
+completely different direction and forget I ever said this.
+.)f
+.pp
+The obvious advantage here is that it's possible to create a document where
+every page has a different size. You can use the \fC\\parbox{}\fP environment
+to more precisely control where text and images are placed on the page. 
+.pp
+Is this useful? As stated, that's a loaded question, because it's missing two
+parameters: \fIto whom\fP and \fIin which context\fP. This isn't useful to me
+at all right now, but I can imagine in the future somebody might find a way to
+make an interesting zine in this way and I like that idea, because that's where
+technology (i.e., LaTeX) and art (zines) intersect, and this is the most
+comfortable part of that particular Venn diagram for me.
+.pp
+For what it's worth, I've added a repo of these experimental files to my gitea
+instance. You can find it at
+\fChttps://git.kjodle.net/
+.br
+kjodle/codex-latex-experiments\fP.
+\" Section
+.nr sp 14 \" Restore the section title font size
+.sp -0.5
+.sh 2 "Why I Love LaTeX"
+.sp
+.lp
+I didn't draw the picture on the next page. It's an example I got from
+\fChttps://texample.net/tikz/\fP. I sometimes find it easier to learn a thing
+by finding examples and playing around with the parameters to see what they
+do.\**
+.(f
+\**If you are interested in drawing in LaTeX, be sure to check out
+.br
+\fChttps://texample.net/tikz/resources/\fP
+.)f
+.PSPIC -C images/venndiagram.eps
+.sp -0.1
+.ce 3
+I am very comfortable living in the center of that Venn diagram.
+.br
+.sp -0.2
+(And yes, I played around with that code to make it a bit
+.br
+.sp -0.2
+smaller\(emas one does.)
+.sp 1
+.PSPIC -R images/house.eps
+.sp -7
+.lp
+Anyway, off to the right is the kind of thing I've figured
+.br
+out how to draw
+using \fCtikz\fP.
+.pp
+Yeah, I've got a ways to go. (If you couldn't tell, it's
+.br
+a house with a floating roof. If you're wondering why
+.br
+the roof is floating, I am too. Let's just assume it's some
+.br
+modern Swedish design.\**
+.(f
+\**I'm good with this. Let's not make it weird.
+.)f
+) I literally have a dozen
+.br
+browser tabs open just to draw that little Swedish
+.br
+house, and yes, that is how I tend to learn the best: here's the basic
+idea, here are a bunch of examples (some of which seem to contradict one
+another), and here's my sandbox where I play around with it until I get it just
+the way I like it.
+.pp
+Now that I look at my code, I realize why my roof is floating. Here's my
+original code:
+.sp 0.5
+.TS
+tab(%);
+r2 l.
+\fC\s-31\s0 % \\begin{tikzpicture}
+\s-32\s0 %   \\draw (0,0) rectangle (1.8cm, 1.8cm);
+\s-33\s0 %   \\draw (1.6,0) rectangle (1.1cm, 1.3cm);
+\s-34\s0 %   \\draw (0.8,1) rectangle (0.3cm, 0.6cm);
+\s-35\s0 %   \\draw (2,2) node{} -- (1,2.5) node{} -- (0,2);
+\s-36\s0 % \\end{tikzpicture}
+.TE
+.sp 0.5
+Lines 2-4 draw the rectangles, and line 5 draws the triangle. Apparently, I
+resized the house and forgot to resize the roof. If I change line five to this:
+.sp 0.5
+.lp
+\fC\\draw (1.8,1.8) node{} -- (0.9,2.5) node{} -- (0,1.8);\fP
+.sp 0.5
+.lp
+We now have a house with a proper (i.e., non-Swedish modern) roof:
+.PS
+scale = 2.54
+A: box wid 1.8 ht 1.8
+line right 0.9 up 0.7 then right 0.9 down 0.7 from A.nw
+box wid 0.5 ht 1.3 with .sw at (A.sw.x + 1.1, A.sw.y)
+box wid 0.5 ht 0.4 with .sw at (A.sw.x + 0.3, A.sw.y + 0.6)
+.PE
+.lp
+\fBWord of advice:\fP only change one variable at a time. Anyway, time to stop
+playing and get back to work.
+.hx
+.bp
+\" Table of Contents (gets moved later after running compile.sh)
+.tp
+.sp 4.5
+.ps 22
+\fBContents\fP
+.ps 11
+.sp 2.5
+.xp
+\" Cover page
+\" Disable the dollar sign symbol as the eqn delimiter
+.EQ
+delim off
+.EN
+\" Try to remove all margins
+.vs 0
+.nr hm 0
+.nr tm 0
+.nr fm 0
+.nr bm 0
+.m1 0
+.m2 0
+.m3 0
+.m4 0
+.de $h
+..
+.de $H
+.sp -1
+..
+.de $f
+..
+.ll 5.5i
+\" Set the left margin (offset)
+.po 0i
+\" Set the line length
+.ll 5.5i
+\" Set the page length
+.pl 612p
+.defcolor zineyellow rgb #F8EBA0
+.defcolor pcolor rgb #2A2A2A
+.PS 8.5i 0
+box color "zineyellow" width 5.5 height 8.5
+.PF
+.vs
+.sp 15
+.ft AR \" Change the font to AvantGarde
+.ce
+.ps 48
+the codex
+.sp
+.ps 12
+.ce
+Life with Linux\(emA Zine
+.sp
+.ce
+Issue #2
+.sp
+.ce
+Typeset in troff (including this cover)
+.sp
+.ce
+.ps 8
+\m[pcolor]First Printing\m[]
+.sp
+.PSPIC -C images/coverperson.eps
