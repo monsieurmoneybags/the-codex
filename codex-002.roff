@@ -1,6 +1,8 @@
 \" Compile: run the compile.sh script
 \" Set the document font to Palatino
 .fam P
+\" Initialize the chapter number register
+.nr ch 0
 \" Set the left margin (offset)
 .po 0.5i
 \" Set the line length
@@ -186,7 +188,6 @@ find the Creative Commons 3.0 license it was licensed under.
 delim off
 .EN
 .$c "The Later Salad Days" \n(ch 1
-.tm 
 .EQ
 delim $$
 .EN
@@ -1082,7 +1083,7 @@ excluding the . and .. directories\**).
 \fCl\fP gives us the listing as a list, because I find that to be more readable,
 especially with a directory that contains a lot of stuff. I'd rather just scroll
 up and down than scroll up and down \fIand\fP scroll right and left.
-.)
+.)l
 .sp
 .pp
 Again, I'm typing three keystrokes instead of seven. When you spend eight or
@@ -1215,7 +1216,6 @@ packages satisfying certain criteria. It supports glob(7) patterns for matching
 package names as well as options to list installed (--installed),
 upgradeable (--upgradeable) or all available (--all-versions) versions.
 .)q
-.ll 4.5i
 .pp
 This command is giving us a lot of output because it's showing \fIeverything\fP
 that was installed using the \fCapt\fP command. You might think that you haven't
@@ -1404,7 +1404,6 @@ to accomplish.
 .sp -0.6
 \(em\fBMarcus Aurelius\fP
 .)q
-.ll 4.5i
 .ad b
 .sp 0.5
 .pp
@@ -2086,7 +2085,6 @@ delim off
 ..
 .de $f
 ..
-.ll 5.5i
 \" Set the left margin (offset)
 .po 0i
 \" Set the line length
